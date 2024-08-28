@@ -1,6 +1,5 @@
 import styles from "./App.module.css";
 import { LoginPage } from "./pages/LoginPage";
-import logoImage from "./assets/logo.png";
 
 function App() {
   return (
