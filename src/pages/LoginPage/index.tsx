@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "antd";
 import { LoginForm } from "./LoginForm/LoginForm";
-import styles from "./LoginPage.module.css";
 import { CadasterForm } from "./CadasterForm/CadasterForm";
+import styles from "./LoginPage.module.css";
 
 export function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showForm, setShowForm] = useState(true); // Inicialmente mostra o formulário
+  const [isAnimating, setIsAnimating] = useState(false); // Estado para controlar a animação
+
+  useEffect(() => {
+    setIsAnimating(true); // Inicia a animação
+    setShowForm(false);   // Esconde o formulário
+
+    const timer = setTimeout(() => {
+      setShowForm(true);   // Mostra o formulário após a animação
+      setIsAnimating(false); // Animação terminou
+    }, 600); // Tempo de animação em ms, deve corresponder ao CSS
+
+    return () => clearTimeout(timer); // Limpa o temporizador ao desmontar o componente
+  }, [isSignUp]);
 
   return (
     <div
@@ -27,23 +41,17 @@ export function LoginPage() {
           type="primary"
           size={"large"}
           className={styles.button_register}
-          onClick={() => {
-            if (isSignUp) {
-              setIsSignUp(false);
-            } else {
-              setIsSignUp(true);
-            }
-          }}
+          onClick={() => setIsSignUp(!isSignUp)}
         >
           {isSignUp ? "ENTRAR" : "CADASTRAR"}
         </Button>
       </div>
       <div
         className={`${styles.form_container} ${
-          isSignUp ? styles["form-hidden"] : ""
+          isAnimating ? styles["animating"] : ""
         }`}
       >
-        {isSignUp ? <CadasterForm /> : <LoginForm />}
+        {showForm && (isSignUp ? <CadasterForm /> : <LoginForm />)}
       </div>
     </div>
   );

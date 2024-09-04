@@ -2,12 +2,26 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    width: 100%;
+    justify-content: center;
+    width: 60%;
+}
+
+.label {
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: #EBD3F8;
+    font-size: 1em;
 }
 
 .text_input {
     width: 100%;
     height: 3em;
-    border-radius: 20px;
-    color: black;
+    border-radius: 0px;
+    border: 0;
+    font-size: 1em;
+    margin-bottom: 2em;
+    margin-top: -0.35em;
+    color: #EBD3F8;
+    border-radius: 12px;
+    background-color: #AD49E1;
 }

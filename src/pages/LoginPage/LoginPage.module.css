@@ -7,7 +7,7 @@
     align-items: center;
     background-color: #7a1cac71;
     border-radius: 15px;
-    position: relative; /* Para permitir o uso de transform */
+    position: relative;
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
 }
@@ -22,7 +22,7 @@
     background-color: #EBD3F8;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-    transition: transform 0.6s ease-in-out; /* Transição suave */
+    transition: transform 0.6s ease-in-out;
 }
 
 .title {
@@ -45,15 +45,35 @@
     align-items: center;
     width: 80%;
     max-width: 80%;
+    transition: opacity 2s ease-in-out;
 }
 
-/* Estilos adicionais para efeito */
+.form-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.animating {
+    animation: fadeForm 0.6s forwards;
+}
+
+@keyframes fadeForm {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .container.right-panel-active .desc_container {
-    transform: translateX(200%); /* Move a seção para a direita */
+    transform: translateX(200%);
 }
 
 .container.right-panel-active .form_container {
-    transform: translateX(-50%); /* Opcional: ajuste o formulário para equilibrar a mudança */
+    transform: translateX(-50%);
 }
 
 .button_register {

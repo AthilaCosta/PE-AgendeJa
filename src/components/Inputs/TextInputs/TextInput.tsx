@@ -5,10 +5,13 @@ import styles from "./TextInput.module.css";
 export function TextInput(props: ITextInputProps) {
   return (
     <div className={styles["container"]}>
+      <label className={styles["label"]}>{props.label}</label>
       <Input
+        className={styles["text_input"]}
         type={props.type}
         placeholder={props.placeholder}
-        className={styles["text_input"]}
+        classNames={{ input: styles["input"] }}
+        prefix={props.preffix}
       />
     </div>
   );
