@@ -17,9 +17,9 @@
 
 .text_input {
     width: 100%;
-    max-height: 3em;
-    height: 3em;
-    min-height: 3em;
+    max-height: 3em !important;
+    height: 3em !important;
+    min-height: 3em !important;
     border: 0;
     font-size: 1em;
     margin-bottom: 0.5em;
