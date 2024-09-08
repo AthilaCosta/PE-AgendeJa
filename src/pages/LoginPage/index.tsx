@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "antd";
 import { LoginForm } from "./LoginForm/LoginForm";
 import { CadasterForm } from "./CadasterForm/CadasterForm";
@@ -6,20 +6,22 @@ import styles from "./LoginPage.module.css";
 
 export function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
-  const [showForm, setShowForm] = useState(true); // Inicialmente mostra o formulário
-  const [isAnimating, setIsAnimating] = useState(false); // Estado para controlar a animação
+  const [animation, setAnimation] = useState("");
+  const [transitioning, setTransitioning] = useState(false);
 
-  useEffect(() => {
-    setIsAnimating(true); // Inicia a animação
-    setShowForm(false);   // Esconde o formulário
+  const handleButtonClick = () => {
+    setAnimation(styles.fadeOut);
+    setTransitioning(true);
 
-    const timer = setTimeout(() => {
-      setShowForm(true);   // Mostra o formulário após a animação
-      setIsAnimating(false); // Animação terminou
-    }, 600); // Tempo de animação em ms, deve corresponder ao CSS
+    setTimeout(() => {
+      setIsSignUp((prev) => !prev);
+    }, 100);
 
-    return () => clearTimeout(timer); // Limpa o temporizador ao desmontar o componente
-  }, [isSignUp]);
+    setTimeout(() => {
+      setAnimation(styles.fadeIn);
+      setTransitioning(false);
+    }, 300);
+  };
 
   return (
     <div
@@ -41,17 +43,14 @@ export function LoginPage() {
           type="primary"
           size={"large"}
           className={styles.button_register}
-          onClick={() => setIsSignUp(!isSignUp)}
+          onClick={handleButtonClick}
+          disabled={transitioning}
         >
           {isSignUp ? "ENTRAR" : "CADASTRAR"}
         </Button>
       </div>
-      <div
-        className={`${styles.form_container} ${
-          isAnimating ? styles["animating"] : ""
-        }`}
-      >
-        {showForm && (isSignUp ? <CadasterForm /> : <LoginForm />)}
+      <div className={`${styles.form_container} ${animation}`}>
+        {isSignUp ? <CadasterForm /> : <LoginForm />}
       </div>
     </div>
   );

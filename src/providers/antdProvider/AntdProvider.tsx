@@ -13,6 +13,7 @@ export function AntDesignProvider({ children }: IAntDesignProviderProps) {
       Input: {
         colorTextPlaceholder: "#EBD3F8",
         colorBgContainer: "#AD49E1",
+        zIndexBase: 0,
       },
     },
   };
