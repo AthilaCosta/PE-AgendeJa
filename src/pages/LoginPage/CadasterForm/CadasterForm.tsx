@@ -117,7 +117,7 @@ export function CadasterForm() {
           }}
         />
 
-        <Form.Item>
+        <Form.Item className={styles['button_cadaster_container']}>
         <Button
           type={"primary"}
           size={"large"}
