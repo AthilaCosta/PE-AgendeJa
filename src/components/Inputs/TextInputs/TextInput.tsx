@@ -15,6 +15,7 @@ export function TextInput(props: ITextInputProps) {
             message: props.validation?.message,
             min: props.validation?.min,
             max: props.validation?.max,
+            validator: props.validation?.validator,
           },
         ]}
       >

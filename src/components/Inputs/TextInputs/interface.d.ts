@@ -11,9 +11,14 @@ export interface ITextInputProps {
 
 interface ITextInputValidations {
   required: boolean;
-  message: string;
+  message?: string;
   min?: number;
   max?: number;
   minLength?: number;
   maxLength?: number;
+  validator?: (
+    rule: RuleObject,
+    value: string | number | unknown,
+    callback: (error?: string) => void
+  ) => void;
 }
