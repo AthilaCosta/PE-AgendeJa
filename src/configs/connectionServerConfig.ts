@@ -1,11 +1,10 @@
-import axios, { AxiosRequestConfig, Method } from "axios";
+import axios, { AxiosRequestConfig, Method } from 'axios';
 
 export interface HttpRequestParams {
-  url: string;
+  suffixUrl: string;
   method: Method;
   body?: Record<string, unknown>;
   queryParams?: Record<string, unknown>;
-  headers?: { [key: string]: string };
 }
 
 export interface HttpResponse<T> {
@@ -13,23 +12,30 @@ export interface HttpResponse<T> {
   data: T;
 }
 
+const api = axios.create({
+  baseURL: 'http://localhost:8080/',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  },
+});
+
 export async function serverConnection<T>({
-  url,
+  suffixUrl,
   method,
   body,
   queryParams,
-  headers = { "Content-Type": "application/json" },
 }: HttpRequestParams): Promise<HttpResponse<T>> {
   const config: AxiosRequestConfig = {
-    url,
+    url: suffixUrl,
     method,
-    headers,
     params: queryParams,
     data: body ? body : undefined,
   };
 
   try {
-    const response = await axios.request<T>(config);
+    const response = await api(config);
 
     return {
       status: response.status,

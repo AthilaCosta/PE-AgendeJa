@@ -8,20 +8,26 @@ import {
 } from "@ant-design/icons";
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { RuleObject } from "antd/es/form";
+import { serverConnection } from "../../../configs/connectionServerConfig";
 
 interface ICadastroData {
-  nome: string;
-  sobrenome: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  cpf_cnpj: string;
-  senha: string;
-  confirmacao_senha: string;
+  governmentId: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export function CadasterForm() {
   const [form] = Form.useForm();
 
   const handleFinish = (values: ICadastroData) => {
+
+    const cadastroData = values;
+    delete cadastroData?.['confirmPassword'];
+    serverConnection({suffixUrl: 'users/sign-up', method: 'POST', body: cadastroData as unknown as Record<string, unknown>})
+
     console.log("Finish", values);
   };
 
@@ -77,7 +83,7 @@ export function CadasterForm() {
           type={"text"}
           placeholder="Digite seu nome"
           label={"Nome"}
-          id={"nome"}
+          id={"firstName"}
           onChange={() => {}}
           customContainerClassName={styles["input"]}
           validation={{
@@ -90,7 +96,7 @@ export function CadasterForm() {
           type={"text"}
           placeholder={"Digite seu sobrenome"}
           label={"Sobrenome"}
-          id={"sobrenome"}
+          id={"lastName"}
           onChange={() => {}}
           customContainerClassName={styles["input"]}
           validation={{
@@ -116,7 +122,7 @@ export function CadasterForm() {
           type={"text"}
           placeholder={"Digite seu CPF ou CNPJ"}
           label={"CPF/CNPJ"}
-          id={"cpf_cnpj"}
+          id={"governmentId"}
           onChange={() => {}}
           customContainerClassName={styles["input"]}
           validation={{
@@ -128,7 +134,7 @@ export function CadasterForm() {
           prefix={<LockOutlined className={styles["icon_input"]} />}
           type={"password"}
           placeholder={"Digite sua senha"}
-          id={"senha"}
+          id={"password"}
           onChange={() => {}}
           label={"Senha"}
           customContainerClassName={styles["input"]}
@@ -142,12 +148,12 @@ export function CadasterForm() {
           type={"password"}
           placeholder={"Repita sua senha"}
           label={"Confirme sua senha"}
-          id={"confirmacao_senha"}
+          id={"confirmPassword"}
           onChange={() => {}}
           customContainerClassName={styles["input"]}
           validation={{
             required: true,
-            validator: validateConfirmPassword,
+            // validator: validateConfirmPassword,
           }}
         />
 
