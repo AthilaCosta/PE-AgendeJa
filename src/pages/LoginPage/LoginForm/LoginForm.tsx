@@ -2,6 +2,8 @@ import { Button, Form } from "antd";
 import styles from "./LoginForm.module.css";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
+import { serverConnection } from "../../../configs/connectionServerConfig";
+import { showAlertFn } from "../../../components/Alert/Alert";
 
 interface ILoginData {
   email: string;
@@ -10,7 +12,18 @@ interface ILoginData {
 
 export function LoginForm() {
   const handleFinish = (values: ILoginData) => {
-    console.log("Finish", values);
+    serverConnection({
+      suffixUrl: "users/sign_in",
+      method: "POST",
+      body: values as unknown as Record<string, unknown>,
+    }).then((response) => {
+      if (response.data === true) {
+        localStorage.setItem("user_logged", "true");
+        window.location.href = "/home";
+      } else {
+        showAlertFn("error", "Credenciais erradas. Email ou senha inválidos");
+      }
+    });
   };
 
   const handleFinishFailed = () => {

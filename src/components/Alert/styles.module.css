@@ -1,0 +1,23 @@
+.globalAlert {
+    position: absolute;
+    margin: 10px;
+    width: 40%;
+    z-index: 1000;
+    padding: 16px;
+    border-radius: 100% !important;
+  }
+  
+  .success {
+    border-color: #d6e9c6;
+    color: #3c763d;
+  }
+  
+  .error {
+    border-color: #ebccd1;
+    color: #a94442;
+  }
+  
+  .globalAlert .ant-alert {
+    border-radius: 0;
+  }
+  

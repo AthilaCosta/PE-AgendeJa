@@ -9,39 +9,55 @@ import {
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { RuleObject } from "antd/es/form";
 import { serverConnection } from "../../../configs/connectionServerConfig";
+import { showAlertFn } from "../../../components/Alert/Alert";
+import { formatDocument, formatUserData } from "./utils";
 
-interface ICadastroData {
+export interface ICadastroData {
   firstName: string;
   lastName: string;
   email: string;
   governmentId: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export function CadasterForm() {
   const [form] = Form.useForm();
 
   const handleFinish = (values: ICadastroData) => {
+    const cadastroData = formatUserData(values);
 
-    const cadastroData = values;
-    delete cadastroData?.['confirmPassword'];
-    serverConnection({suffixUrl: 'users/sign-up', method: 'POST', body: cadastroData as unknown as Record<string, unknown>})
-
-    console.log("Finish", values);
+    serverConnection({
+      suffixUrl: "users/sign_up",
+      method: "POST",
+      body: cadastroData as unknown as Record<string, unknown>,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          form.resetFields();
+        }
+        showAlertFn(
+          "success",
+          "Usuário cadastrado com sucesso. Faça login na plataforma para continuar."
+        );
+      })
+      .catch((error) => {
+        showAlertFn("error", "Erro ao cadastrar usuário. Tente novamente.");
+        console.error("Erro ao cadastrar:", error);
+      });
   };
 
   const handleFinishFailed = () => {
     console.log("Failed");
   };
 
-  // Função de validação para a senha
   const validatePassword = (_: RuleObject, value: string) => {
     if (!value) {
       return Promise.reject(new Error("A senha é obrigatória"));
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordRegex.test(value)) {
       return Promise.reject(
         new Error(
@@ -53,13 +69,12 @@ export function CadasterForm() {
     return Promise.resolve();
   };
 
-  // Função de validação para confirmar se as senhas são iguais
   const validateConfirmPassword = (_: RuleObject, value: string) => {
     if (!value) {
       return Promise.reject(new Error("A confirmação de senha é obrigatória"));
     }
 
-    if (value !== form.getFieldValue("senha")) {
+    if (value !== form.getFieldValue("password")) {
       return Promise.reject(new Error("As senhas não coincidem"));
     }
 
@@ -123,7 +138,11 @@ export function CadasterForm() {
           placeholder={"Digite seu CPF ou CNPJ"}
           label={"CPF/CNPJ"}
           id={"governmentId"}
-          onChange={() => {}}
+          onChange={(e) => {
+            const { value } = e.target;
+            const formattedValue = formatDocument(value);
+            form.setFieldsValue({ governmentId: formattedValue });
+          }}
           customContainerClassName={styles["input"]}
           validation={{
             required: true,
@@ -153,7 +172,7 @@ export function CadasterForm() {
           customContainerClassName={styles["input"]}
           validation={{
             required: true,
-            // validator: validateConfirmPassword,
+            validator: validateConfirmPassword,
           }}
         />
 

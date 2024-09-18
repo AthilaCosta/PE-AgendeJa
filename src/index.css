@@ -5,8 +5,9 @@ html, body, #root {
   height: 100%;
   box-sizing: border-box;
   background-color: #2e073f;
-  justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 :root {
