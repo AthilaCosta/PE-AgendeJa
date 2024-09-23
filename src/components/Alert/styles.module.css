@@ -4,17 +4,28 @@
     width: 40%;
     z-index: 1000;
     padding: 16px;
-    border-radius: 100% !important;
   }
   
   .success {
-    border-color: #d6e9c6;
-    color: #3c763d;
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 3em;
+    color: #d1e7dd;
+    background-color: #0f5132;
+    border: none;
   }
   
   .error {
-    border-color: #ebccd1;
-    color: #a94442;
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #f8d7da;
+    min-height: 3em;
+    border: none;
+    background-color: #721c24;
   }
   
   .globalAlert .ant-alert {

@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosRequestConfig, Method } from "axios";
+import { showAlert } from "../components/Alert/Alert";
 
 export interface HttpRequestParams {
   suffixUrl: string;
@@ -13,8 +14,7 @@ export interface HttpResponse<T> {
 }
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/',
-
+  baseURL: "http://localhost:8080/",
 });
 
 export async function serverConnection<T>({
@@ -44,6 +44,7 @@ export async function serverConnection<T>({
         data: error.response.data,
       };
     }
+    showAlert("error", "Ocorreu um erro, contate o suporte.");
     throw error;
   }
 }

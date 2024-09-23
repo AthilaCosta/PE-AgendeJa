@@ -9,8 +9,9 @@ import {
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { RuleObject } from "antd/es/form";
 import { serverConnection } from "../../../configs/connectionServerConfig";
-import { showAlertFn } from "../../../components/Alert/Alert";
+import { showAlert } from "../../../components/Alert/Alert";
 import { formatDocument, formatUserData } from "./utils";
+import { closeLoader, openLoader } from "../../../components/Loading/Loading";
 
 export interface ICadastroData {
   firstName: string;
@@ -33,22 +34,26 @@ export function CadasterForm() {
       body: cadastroData as unknown as Record<string, unknown>,
     })
       .then((response) => {
+        openLoader();
         if (response.status === 201) {
           form.resetFields();
         }
-        showAlertFn(
+        showAlert(
           "success",
           "Usuário cadastrado com sucesso. Faça login na plataforma para continuar."
         );
       })
+      .finally(() => {
+        closeLoader();
+      })
       .catch((error) => {
-        showAlertFn("error", "Erro ao cadastrar usuário. Tente novamente.");
-        console.error("Erro ao cadastrar:", error);
+        showAlert("error", "Erro ao cadastrar usuário. Tente novamente.");
+        throw error;
       });
   };
 
   const handleFinishFailed = () => {
-    console.log("Failed");
+    showAlert("error", "Campos obrigatórios não preenchidos");
   };
 
   const validatePassword = (_: RuleObject, value: string) => {

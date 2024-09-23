@@ -3,7 +3,8 @@ import styles from "./LoginForm.module.css";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { serverConnection } from "../../../configs/connectionServerConfig";
-import { showAlertFn } from "../../../components/Alert/Alert";
+import { showAlert } from "../../../components/Alert/Alert";
+import { closeLoader, openLoader } from "../../../components/Loading/Loading";
 
 interface ILoginData {
   email: string;
@@ -17,17 +18,21 @@ export function LoginForm() {
       method: "POST",
       body: values as unknown as Record<string, unknown>,
     }).then((response) => {
+      openLoader();
       if (response.data === true) {
         localStorage.setItem("user_logged", "true");
         window.location.href = "/home";
       } else {
-        showAlertFn("error", "Credenciais erradas. Email ou senha inválidos");
+        showAlert("error", "Credenciais erradas. Email ou senha inválidos");
       }
+    }).finally(() => {
+      closeLoader();
     });
   };
 
   const handleFinishFailed = () => {
-    console.log("Failed:");
+    openLoader();
+    showAlert("error", "Campos obrigatórios não preenchidos");
   };
 
   return (
