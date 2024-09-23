@@ -31,7 +31,6 @@ export function LoginForm() {
   };
 
   const handleFinishFailed = () => {
-    openLoader();
     showAlert("error", "Campos obrigatórios não preenchidos");
   };
 
