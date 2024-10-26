@@ -1,8 +1,16 @@
 import { ITextInputProps } from "./interface";
 import { Form, Input } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { useState } from "react";
 import styles from "./TextInput.module.css";
 
 export function TextInput(props: ITextInputProps) {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <div className={`${styles["container"]} ${props.customContainerClassName}`}>
       <label className={styles["label"]}>{props.label}</label>
@@ -21,10 +29,18 @@ export function TextInput(props: ITextInputProps) {
       >
         <Input
           className={styles["text_input"]}
-          type={props.type}
+          type={props.type === "password" && passwordVisible ? "text" : props.type}
           placeholder={props.placeholder}
           classNames={{ input: styles["input"] }}
-          prefix={props.prefix}
+          prefix={
+            props.type === "password" ? (
+              <span onClick={togglePasswordVisibility}>
+                {passwordVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+              </span>
+            ) : (
+              props.prefix
+            )
+          }
           onChange={props.onChange}
         />
       </Form.Item>
