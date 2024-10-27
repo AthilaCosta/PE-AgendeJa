@@ -2,13 +2,16 @@ import { Calendar, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import styles from "./HomePage.module.css";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/pt-br";
+import { GenericModal } from "../../components/Modal/Modal";
 
 dayjs.locale("pt-br");
 
 export function HomePage() {
   const [currentDate, setCurrentDate] = useState(dayjs());
+
+  const [openModal, setOpenModal] = useState(false);
 
   const handlePrevMonth = () => {
     setCurrentDate(currentDate.subtract(1, "month"));
@@ -18,9 +21,8 @@ export function HomePage() {
     setCurrentDate(currentDate.add(1, "month"));
   };
 
-  const handleDateSelect = (date) => {
-    console.log(date, currentDate);
-    if (!date.isSame(currentDate, "m")) {
+  const handleDateSelect = (date: Dayjs) => {
+    if (!date.isSame(currentDate, "month")) {
       setCurrentDate(date);
     }
   };
@@ -39,8 +41,23 @@ export function HomePage() {
     );
   };
 
+  const dateFullCellRender = (value) => {
+    const isSelected = value.isSame(currentDate, "day");
+    return (
+      <div
+        className={
+          isSelected ? styles["selected_date_cell"] : styles["date_cell"]
+        }
+        onClick = {() => {setOpenModal(true)}}
+      >
+        {value.date()}
+      </div>
+    );
+  };
+
   return (
     <div className={styles["container"]}>
+      <GenericModal title={currentDate.toString()} openModal={openModal} setOpenModal={setOpenModal} footer={<div></div>}/>
       <div className={styles["calendar_container"]}>
         <Calendar
           headerRender={headerRender}
@@ -48,6 +65,7 @@ export function HomePage() {
           className={styles["calendar"]}
           value={currentDate}
           onSelect={handleDateSelect}
+          fullCellRender={dateFullCellRender}
           mode="month"
         />
       </div>
