@@ -4,11 +4,14 @@ import { useState } from "react";
 import styles from "./HomePage.module.css";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/pt-br";
+import { GenericModal } from "../../components/Modal/Modal";
 
 dayjs.locale("pt-br");
 
 export function HomePage() {
   const [currentDate, setCurrentDate] = useState(dayjs());
+
+  const [openModal, setOpenModal] = useState(false);
 
   const handlePrevMonth = () => {
     setCurrentDate(currentDate.subtract(1, "month"));
@@ -19,7 +22,9 @@ export function HomePage() {
   };
 
   const handleDateSelect = (date: Dayjs) => {
-    setCurrentDate(date);
+    if (!date.isSame(currentDate, "month")) {
+      setCurrentDate(date);
+    }
   };
 
   const headerRender = ({ value }) => {
@@ -43,7 +48,10 @@ export function HomePage() {
         className={
           isSelected ? styles["selected_date_cell"] : styles["date_cell"]
         }
-        onClick={() => handleDateSelect(value)}
+        onClick={() => {
+          handleDateSelect(value);
+          setOpenModal(true);
+        }}
       >
         <span className={styles["date_cell_text"]}>{value.date()}</span>
       </div>
@@ -52,6 +60,12 @@ export function HomePage() {
 
   return (
     <div className={styles["container"]}>
+      <GenericModal
+        title={currentDate.toString()}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        footer={<div></div>}
+      />
       <div className={styles["calendar_container"]}>
         <Calendar
           headerRender={headerRender}
@@ -59,7 +73,7 @@ export function HomePage() {
           className={styles["calendar"]}
           value={currentDate}
           onSelect={handleDateSelect}
-          dateFullCellRender={dateFullCellRender}
+          fullCellRender={dateFullCellRender}
           mode="month"
         />
       </div>
