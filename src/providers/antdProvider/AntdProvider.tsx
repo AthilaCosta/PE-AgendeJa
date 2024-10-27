@@ -2,6 +2,7 @@
 
 import { ConfigProvider, ThemeConfig } from "antd";
 import { ReactNode } from "react";
+import ptBR from "antd/lib/locale/pt_BR";
 
 interface IAntDesignProviderProps {
   children: ReactNode;
@@ -15,11 +16,16 @@ export function AntDesignProvider({ children }: IAntDesignProviderProps) {
         colorBgContainer: "#AD49E1",
         zIndexBase: 0,
       },
+      Calendar: {
+        colorBgContainer: "#AD49E1",
+        colorText: "#EBD3F8",
+        colorBgBlur: "#2E073F",
+      },
     },
   };
 
   return (
-    <ConfigProvider theme={data}>
+    <ConfigProvider locale={ptBR} theme={data}>
       {children}
     </ConfigProvider>
   );
