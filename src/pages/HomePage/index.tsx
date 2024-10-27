@@ -2,7 +2,7 @@ import { Calendar, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import styles from "./HomePage.module.css";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/pt-br";
 
 dayjs.locale("pt-br");
@@ -18,11 +18,8 @@ export function HomePage() {
     setCurrentDate(currentDate.add(1, "month"));
   };
 
-  const handleDateSelect = (date) => {
-    console.log(date, currentDate);
-    if (!date.isSame(currentDate, "m")) {
-      setCurrentDate(date);
-    }
+  const handleDateSelect = (date: Dayjs) => {
+    setCurrentDate(date);
   };
 
   const headerRender = ({ value }) => {
@@ -39,6 +36,20 @@ export function HomePage() {
     );
   };
 
+  const dateFullCellRender = (value) => {
+    const isSelected = value.isSame(currentDate, "day");
+    return (
+      <div
+        className={
+          isSelected ? styles["selected_date_cell"] : styles["date_cell"]
+        }
+        onClick={() => handleDateSelect(value)}
+      >
+        <span className={styles["date_cell_text"]}>{value.date()}</span>
+      </div>
+    );
+  };
+
   return (
     <div className={styles["container"]}>
       <div className={styles["calendar_container"]}>
@@ -48,6 +59,7 @@ export function HomePage() {
           className={styles["calendar"]}
           value={currentDate}
           onSelect={handleDateSelect}
+          dateFullCellRender={dateFullCellRender}
           mode="month"
         />
       </div>
