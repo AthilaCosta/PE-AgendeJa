@@ -27,3 +27,9 @@
     border-radius: 12px;
     background-color: #AD49E1;
 }
+
+.eye_icon {
+    font-size: 1.5em !important;
+    margin-right: 5px;
+    margin-top: 3px;
+}

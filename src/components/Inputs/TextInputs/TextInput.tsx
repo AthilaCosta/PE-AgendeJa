@@ -29,16 +29,21 @@ export function TextInput(props: ITextInputProps) {
       >
         <Input
           className={styles["text_input"]}
-          type={props.type === "password" && passwordVisible ? "text" : props.type}
+          type={
+            props.type === "password" && passwordVisible ? "text" : props.type
+          }
           placeholder={props.placeholder}
           classNames={{ input: styles["input"] }}
-          prefix={
-            props.type === "password" ? (
+          prefix={props.prefix}
+          suffix={
+            props.type === "password" && (
               <span onClick={togglePasswordVisibility}>
-                {passwordVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                {passwordVisible ? (
+                  <EyeInvisibleOutlined className={styles["eye_icon"]} />
+                ) : (
+                  <EyeOutlined className={styles["eye_icon"]} />
+                )}
               </span>
-            ) : (
-              props.prefix
             )
           }
           onChange={props.onChange}

@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import { LoginPage } from "./pages/LoginPage";
 import { HomePage } from "./pages/HomePage";
 import { Layout } from "./components/Layout";
+import { MyProfilePage } from "./pages/MyProfilePage";
 
 function App() {
   // const userIsLogged =
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               {/* {userIsLogged && ( */}
               <Route path="/home" element={<HomePage />} />
+              <Route path="/my_profile" element={<MyProfilePage/>} />
               {/* )} */}
             </Routes>
           </BrowserRouter>

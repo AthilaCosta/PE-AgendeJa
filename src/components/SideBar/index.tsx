@@ -54,7 +54,7 @@ export default function SideBar({ retracted, setRetracted }: ISideBarProps) {
               />
             }
             {!retracted && (
-              <span className={styles["menu_item_text"]}>Meus negócio</span>
+              <span className={styles["menu_item_text"]}>Meu negócio</span>
             )}
           </div>
           <div
