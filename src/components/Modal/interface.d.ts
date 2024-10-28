@@ -3,4 +3,5 @@ export interface IModal {
     openModal: boolean;
     setOpenModal: (value: boolean) => void;
     footer: React.ReactNode;
+    body: React.ReactNode;
 }

@@ -1,22 +1,28 @@
-import { Modal } from 'antd';
-import { IModal } from './interface';
-import styles from "./Modal.module.css"
+import { Modal } from "antd";
+import { IModal } from "./interface";
 
-export function GenericModal({ title, openModal, setOpenModal, footer }: IModal) {
+export function GenericModal({
+  title,
+  openModal,
+  setOpenModal,
+  footer,
+  body,
+}: IModal) {
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
-    const handleOk = () => {
-        setOpenModal(false);
-    };
-
-    const handleCancel = () => {
-        setOpenModal(false);
-    };
-
-    return (
-        <div className={styles["modal"]}>
-            <Modal centered={true} footer={footer} title={title} open={openModal} onOk={handleOk} onCancel={handleCancel}>
-                
-            </Modal>
-        </div>
-    );
-};
+  return (
+    <div>
+      <Modal
+        centered={true}
+        footer={footer}
+        title={title}
+        open={openModal}
+        onCancel={handleCloseModal}
+      >
+        {body}
+      </Modal>
+    </div>
+  );
+}
