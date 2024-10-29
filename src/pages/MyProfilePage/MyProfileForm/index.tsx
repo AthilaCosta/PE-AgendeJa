@@ -10,10 +10,10 @@ import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { RuleObject } from "antd/es/form";
 import { serverConnection } from "../../../configs/connectionServerConfig";
 import { showAlert } from "../../../components/Alert/Alert";
-import { formatDocument } from "./utils";
 import { closeLoader, openLoader } from "../../../components/Loading/Loading";
+import { useState } from "react";
 
-export interface ICadastroData {
+export interface IProfileData {
   firstName: string;
   lastName: string;
   email: string;
@@ -23,33 +23,52 @@ export interface ICadastroData {
 }
 
 export function MyProfileForm() {
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
   const [form] = Form.useForm();
 
-  const handleFinish = (values: ICadastroData) => {
-    const cadastroData = values;
+  const userInitialData = JSON.parse(
+    localStorage.getItem("user_data") as string
+  );
+
+  const handleFieldsChange = () => {
+    const currentValues = form.getFieldsValue();
+    const hasChanged = Object.keys(userInitialData).some(
+      (key) => currentValues[key] !== userInitialData[key]
+    );
+    setIsSaveEnabled(hasChanged);
+  };
+
+  const handleFinish = (values: IProfileData) => {
+    const profileData = values;
 
     serverConnection({
-      suffixUrl: "users/sign_up",
-      method: "POST",
-      body: cadastroData as unknown as Record<string, unknown>,
+      suffixUrl: `users/edit/${userInitialData.id}`,
+      method: "PUT",
+      body: profileData as unknown as Record<string, unknown>,
     })
       .then((response) => {
         openLoader();
         if (response.status === 201) {
           form.resetFields();
         }
-        showAlert(
-          "success",
-          "Usuário cadastrado com sucesso. Faça login na plataforma para continuar."
-        );
+        showAlert("success", "Informações do usuário editadas com sucesso.");
       })
       .finally(() => {
         closeLoader();
       })
       .catch((error) => {
-        showAlert("error", "Erro ao cadastrar usuário. Tente novamente.");
+        showAlert(
+          "error",
+          "Erro ao editar informações do usuário. Tente novamente."
+        );
         throw error;
       });
+  };
+
+  const handleCancel = () => {
+    form.resetFields();
+    setIsSaveEnabled(false);
   };
 
   const handleFinishFailed = () => {
@@ -97,6 +116,7 @@ export function MyProfileForm() {
         onFinishFailed={handleFinishFailed}
         autoComplete="off"
         form={form}
+        onFieldsChange={handleFieldsChange}
       >
         <TextInput
           prefix={<UserOutlined className={styles["icon_input"]} />}
@@ -110,8 +130,10 @@ export function MyProfileForm() {
             required: true,
             message: "Campo obrigatório",
           }}
+          defaultValue={userInitialData.firstName}
         />
         <TextInput
+          defaultValue={userInitialData.lastName}
           prefix={<UserOutlined className={styles["icon_input"]} />}
           type={"text"}
           placeholder={"Digite seu sobrenome"}
@@ -125,6 +147,7 @@ export function MyProfileForm() {
           }}
         />
         <TextInput
+          defaultValue={userInitialData.email}
           prefix={<MailOutlined className={styles["icon_input"]} />}
           type={"email"}
           placeholder={"Digite seu e-mail"}
@@ -138,23 +161,18 @@ export function MyProfileForm() {
           }}
         />
         <TextInput
+          defaultValue={userInitialData.governmentId}
           prefix={<IdcardOutlined className={styles["icon_input"]} />}
           type={"text"}
           placeholder={"Digite seu CPF ou CNPJ"}
           label={"CPF/CNPJ"}
+          disable={true}
           id={"governmentId"}
-          onChange={(e) => {
-            const { value } = e.target;
-            const formattedValue = formatDocument(value);
-            form.setFieldsValue({ governmentId: formattedValue });
-          }}
+          onChange={() => {}}
           customContainerClassName={styles["input"]}
-          validation={{
-            required: true,
-            message: "Campo obrigatório",
-          }}
         />
         <TextInput
+          defaultValue={userInitialData.password}
           prefix={<LockOutlined className={styles["icon_input"]} />}
           type={"password"}
           placeholder={"Digite sua senha"}
@@ -168,6 +186,7 @@ export function MyProfileForm() {
           }}
         />
         <TextInput
+          defaultValue={userInitialData.password}
           prefix={<LockOutlined className={styles["icon_input"]} />}
           type={"password"}
           placeholder={"Repita sua senha"}
@@ -180,22 +199,21 @@ export function MyProfileForm() {
             validator: validateConfirmPassword,
           }}
         />
-
         <Form.Item className={styles["button_cadaster_container"]}>
           <Button
-            type={"secondary"}
-            size={"large"}
+            type="primary"
+            size="large"
             className={styles["button_cancel"]}
-            htmlType={"submit"}
+            onClick={handleCancel}
           >
             CANCELAR
           </Button>
-
           <Button
-            type={"primary"}
-            size={"large"}
+            type="primary"
+            size="large"
             className={styles["button_save"]}
-            htmlType={"button"}
+            htmlType="submit"
+            disabled={!isSaveEnabled}
           >
             SALVAR
           </Button>

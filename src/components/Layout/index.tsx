@@ -4,9 +4,10 @@ import styles from "./Layout.module.css";
 
 interface ILayoutProps {
   children: React.ReactNode;
+  userData: Record<string, unknown>;
 }
 
-export function Layout({ children }: ILayoutProps) {
+export function Layout({ children, userData }: ILayoutProps) {
   const [isRetracted, setIsRetracted] = useState(false);
   const isLogin = window.location.pathname === "/";
 
@@ -20,7 +21,7 @@ export function Layout({ children }: ILayoutProps) {
               : styles["sidebar_container"]
           }
         >
-          <SideBar retracted={isRetracted} setRetracted={setIsRetracted} />
+          <SideBar userData={userData} retracted={isRetracted} setRetracted={setIsRetracted} />
         </div>
       )}
       <div className={styles["children_container"]}>{children}</div>

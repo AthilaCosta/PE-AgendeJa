@@ -6,21 +6,23 @@ import { Layout } from "./components/Layout";
 import { MyProfilePage } from "./pages/MyProfilePage";
 
 function App() {
-  // const userIsLogged =
-  //   localStorage.getItem("user_logged") === "true" ? true : false;
+  const userIsLogged =
+    localStorage.getItem("user_logged") === "true" ? true : false;
   const isLogin = window.location.pathname === "/";
+
+  const userData = JSON.parse(localStorage.getItem("user_data") as string);
 
   return (
     <div className={styles["app_container"]}>
       {!isLogin && (
-        <Layout>
+        <Layout userData={userData}>
           <BrowserRouter>
-            <Routes>
-              {/* {userIsLogged && ( */}
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/my_profile" element={<MyProfilePage/>} />
-              {/* )} */}
-            </Routes>
+            {userIsLogged && (
+              <Routes>
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/my_profile" element={<MyProfilePage />} />
+              </Routes>
+            )}
           </BrowserRouter>
         </Layout>
       )}

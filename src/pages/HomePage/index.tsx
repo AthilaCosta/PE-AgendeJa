@@ -11,7 +11,9 @@ dayjs.locale("pt-br");
 export function HomePage() {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [openModal, setOpenModal] = useState(false);
-  const [selectedEvents, setSelectedEvents] = useState([]);
+  const [selectedEvents, setSelectedEvents] = useState<
+    Record<string, unknown>[]
+  >([]);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [events, setEvents] = useState(generateMockEvents());
 
@@ -86,9 +88,10 @@ export function HomePage() {
             {selectedEvents.map((event, index) => {
               return (
                 <div key={index} className={styles["event_modal_container"]}>
-                  <p>Serviço: {event.title}</p>
-                  <p>Local: {event.company_name}</p>
-                  <p>Data: {event.date.format("HH:mm")}</p>
+                  <p>Serviço: {event.title as string}</p>
+                  <p>Estabelecimento: {event.company_name as string}</p>
+                  <p>Endereço: {event.address as string}</p>
+                  <p>Horário: {(event.date as Dayjs).format("HH:mm")}</p>
                 </div>
               );
             })}
@@ -116,26 +119,13 @@ function generateMockEvents() {
       date: dayjs("2024-10-05 10:00:00"),
       title: "Corte de cabelo",
       company_name: "Claudia Hair",
+      address: "Rua dos Alfeneiros, 7",
     },
     {
       date: dayjs("2024-10-19 15:30:00"),
       title: "Unha francesinha",
       company_name: "Nail Art",
-    },
-    {
-      date: dayjs("2024-10-05 12:00:00"),
-      title: "Corte de cabelo",
-      company_name: "Claudia Hair",
-    },
-    {
-      date: dayjs("2024-10-05 15:00:00"),
-      title: "Corte de cabelo",
-      company_name: "Claudia Hair",
-    },
-    {
-      date: dayjs("2024-10-05 18:00:00"),
-      title: "Corte de cabelo",
-      company_name: "Claudia Hair",
+      address: "Rua Coronel Assis, 780",
     },
   ];
 }

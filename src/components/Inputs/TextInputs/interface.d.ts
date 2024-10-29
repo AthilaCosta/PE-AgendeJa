@@ -1,5 +1,6 @@
 export interface ITextInputProps {
   id: string;
+  defaultValue?: string | number;
   type: string;
   placeholder: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -7,6 +8,7 @@ export interface ITextInputProps {
   prefix?: JSX.Element;
   validation?: ITextInputValidations;
   customContainerClassName?: string;
+  disable?: boolean;
 }
 
 interface ITextInputValidations {

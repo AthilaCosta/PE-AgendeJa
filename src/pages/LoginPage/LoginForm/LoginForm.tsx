@@ -17,17 +17,23 @@ export function LoginForm() {
       suffixUrl: "users/sign_in",
       method: "POST",
       body: values as unknown as Record<string, unknown>,
-    }).then((response) => {
-      openLoader();
-      if (response.data === true) {
-        localStorage.setItem("user_logged", "true");
-        window.location.href = "/home";
-      } else {
-        showAlert("error", "Credenciais erradas. Email ou senha inválidos");
-      }
-    }).finally(() => {
-      closeLoader();
-    });
+    })
+      .then((response) => {
+        openLoader();
+        const dataResponse = response.data as unknown as Record<string, unknown>;
+        
+        if (dataResponse.success) {
+          localStorage.setItem("user_logged", "true");
+          localStorage.setItem("user_data", JSON.stringify(dataResponse.user));
+
+          window.location.href = "/home";
+        } else {
+          showAlert("error", "Credenciais erradas. Email ou senha inválidos");
+        }
+      })
+      .finally(() => {
+        closeLoader();
+      });
   };
 
   const handleFinishFailed = () => {

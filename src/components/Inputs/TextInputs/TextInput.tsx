@@ -17,6 +17,7 @@ export function TextInput(props: ITextInputProps) {
       <Form.Item
         style={{ width: "100%", height: "100%", margin: 0 }}
         name={props.id}
+        initialValue={props.defaultValue}
         rules={[
           {
             required: props.validation?.required,
@@ -35,6 +36,9 @@ export function TextInput(props: ITextInputProps) {
           placeholder={props.placeholder}
           classNames={{ input: styles["input"] }}
           prefix={props.prefix}
+          value={props.defaultValue}
+          defaultValue={props.defaultValue}
+          disabled={props.disable}
           suffix={
             props.type === "password" && (
               <span onClick={togglePasswordVisibility}>
