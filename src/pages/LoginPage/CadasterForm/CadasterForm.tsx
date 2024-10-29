@@ -26,12 +26,11 @@ export function CadasterForm() {
   const [form] = Form.useForm();
 
   const handleFinish = (values: ICadastroData) => {
-    const cadastroData = formatUserData(values);
 
     serverConnection({
       suffixUrl: "users/sign_up",
       method: "POST",
-      body: cadastroData as unknown as Record<string, unknown>,
+      body: formatUserData(values) as unknown as Record<string, unknown>,
     })
       .then((response) => {
         openLoader();

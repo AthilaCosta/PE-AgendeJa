@@ -28,16 +28,15 @@ export function formatDocument(value: string): string {
 }
 
 export function formatUserData(user: ICadastroData): Record<string, unknown> {
-  const { governmentId, ...rest } = user;
+  const { governmentId, email, firstName, lastName, password } = user;
 
-  const formattedGovernmentId = governmentId.replace(/\D/g, '');
-  
-  if (user.confirmPassword) {
-    delete user.confirmPassword;
-  }
-  
+  const formattedGovernmentId = governmentId.replace(/\D/g, "");
+
   return {
-    ...rest,
+    email,
+    password,
+    firstName,
+    lastName,
     governmentId: formattedGovernmentId,
   };
 }
