@@ -9,7 +9,7 @@ export function getPermissionsUser({ role }: { role: "PROVIDER" | "CLIENT" }) {
           link: "/home"
         },
         {
-          title: "Meu negócio",
+          title: "Meu estabelecimento",
           icon: "ShopOutlined",
           code: "MYBUSI",
           link: '/business'

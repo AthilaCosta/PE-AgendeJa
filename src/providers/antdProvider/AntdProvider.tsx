@@ -21,6 +21,10 @@ export function AntDesignProvider({ children }: IAntDesignProviderProps) {
         colorText: "#EBD3F8",
         colorBgBlur: "#2E073F",
       },
+      Table: {
+        colorBgBase: '#ff4b4b',
+        colorBgContainer: '#EBD3F8',
+      }
     },
   };
 

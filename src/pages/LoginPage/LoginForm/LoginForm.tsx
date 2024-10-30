@@ -25,7 +25,7 @@ export function LoginForm() {
         if (dataResponse.success) {
           localStorage.setItem("user_logged", "true");
           localStorage.setItem("user_data", JSON.stringify(dataResponse.user));
-
+          localStorage.setItem("user_business", JSON.stringify(dataResponse.business));
           window.location.href = "/home";
         } else {
           showAlert("error", "Credenciais erradas. Email ou senha inválidos");

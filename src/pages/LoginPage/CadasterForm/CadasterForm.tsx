@@ -26,7 +26,6 @@ export function CadasterForm() {
   const [form] = Form.useForm();
 
   const handleFinish = (values: ICadastroData) => {
-
     serverConnection({
       suffixUrl: "users/sign_up",
       method: "POST",
@@ -61,7 +60,7 @@ export function CadasterForm() {
     }
 
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W])[A-Za-z\d\W]{8,}$/;
     if (!passwordRegex.test(value)) {
       return Promise.reject(
         new Error(

@@ -114,18 +114,24 @@ export function HomePage() {
 }
 
 function generateMockEvents() {
-  return [
-    {
-      date: dayjs("2024-10-05 10:00:00"),
-      title: "Corte de cabelo",
-      company_name: "Claudia Hair",
-      address: "Rua dos Alfeneiros, 7",
-    },
-    {
-      date: dayjs("2024-10-19 15:30:00"),
-      title: "Unha francesinha",
-      company_name: "Nail Art",
-      address: "Rua Coronel Assis, 780",
-    },
-  ];
+  const userData = JSON.parse(localStorage.getItem("user_data") as string);
+
+  if (userData.role === "CLIENT") {
+    return [
+      {
+        date: dayjs("2024-10-05 10:00:00"),
+        title: "Corte de cabelo",
+        company_name: "Claudia Hair",
+        address: "Rua dos Alfeneiros, 7",
+      },
+      {
+        date: dayjs("2024-10-19 15:30:00"),
+        title: "Unha francesinha",
+        company_name: "Nail Art",
+        address: "Rua Coronel Assis, 780",
+      },
+    ];
+  }
+
+  return [];
 }
