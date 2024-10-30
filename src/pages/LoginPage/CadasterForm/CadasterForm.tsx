@@ -11,7 +11,6 @@ import { RuleObject } from "antd/es/form";
 import { serverConnection } from "../../../configs/connectionServerConfig";
 import { showAlert } from "../../../components/Alert/Alert";
 import { formatDocument, formatUserData } from "./utils";
-import { closeLoader, openLoader } from "../../../components/Loading/Loading";
 
 export interface ICadastroData {
   firstName: string;
@@ -26,14 +25,14 @@ export function CadasterForm() {
   const [form] = Form.useForm();
 
   const handleFinish = (values: ICadastroData) => {
+    const cadastroData = formatUserData(values);
 
     serverConnection({
       suffixUrl: "users/sign_up",
       method: "POST",
-      body: formatUserData(values) as unknown as Record<string, unknown>,
+      body: cadastroData as unknown as Record<string, unknown>,
     })
       .then((response) => {
-        openLoader();
         if (response.status === 201) {
           form.resetFields();
         }
@@ -42,17 +41,14 @@ export function CadasterForm() {
           "Usuário cadastrado com sucesso. Faça login na plataforma para continuar."
         );
       })
-      .finally(() => {
-        closeLoader();
-      })
       .catch((error) => {
         showAlert("error", "Erro ao cadastrar usuário. Tente novamente.");
-        throw error;
+        console.error("Erro ao cadastrar:", error);
       });
   };
 
   const handleFinishFailed = () => {
-    showAlert("error", "Campos obrigatórios não preenchidos");
+    console.log("Failed");
   };
 
   const validatePassword = (_: RuleObject, value: string) => {
@@ -61,7 +57,7 @@ export function CadasterForm() {
     }
 
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&^~*])[A-Za-z\d!@#$%^&~*]{8,}$/;
     if (!passwordRegex.test(value)) {
       return Promise.reject(
         new Error(

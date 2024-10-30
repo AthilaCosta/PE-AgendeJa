@@ -1,0 +1,114 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+}
+
+.title_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6em;
+    margin-top: -2em;
+    margin-bottom: 2em;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #EBD3F8;
+    margin-top: 3em;
+    margin-bottom: 1.5em;
+}
+
+.form_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 80%;
+    flex-wrap: wrap;
+}
+
+.input {
+    width: 39% !important;
+}
+
+.icon_input {
+    font-size: 1.5em !important;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+.label {
+    font-size: 1em;
+    color: #EBD3F8;
+    margin-bottom: 10px;
+}
+
+.button_cadaster_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 20%;
+    margin-top: 5em;
+}
+
+
+.button_save {
+    width: 13em !important;
+    height: 3em !important;
+    max-width: 13em !important;
+    max-height: 3em !important;
+    border-radius: 30px;
+    background-color: #bb86fc;
+    box-shadow: 0;
+    color: #7A1CAC;
+    font-size: 15px;
+    font-weight: 700;
+    margin-right: 5rem;
+}
+
+.button_save:hover {
+    transition: 1s;
+    border: 2px solid #bb86fc;
+    background-color: #bb86fc00 !important;
+    color: #bb86fc !important;
+}
+
+.button_cancel {
+    width: 13em !important;
+    height: 3em !important;
+    max-width: 13em !important;
+    max-height: 3em !important;
+    border-radius: 30px;
+    box-shadow: 0;
+    color: #bb86fc;
+    background-color: #bb86fc00 !important;
+    border: 2px solid #bb86fc;
+    font-size: 15px;
+    font-weight: 700;
+    margin-right: 1rem;
+}
+
+.button_cancel:hover {
+    transition: 1s;
+    border: 2px solid #2E073F;
+    color: #2E073F !important;
+}
+
+.label_button {
+    font-size: 1.5em;
+    color: #bb86fc;
+}
+
+.label_button:hover {
+    font-size: 1.5em;
+    color: #2E073F;
+}
