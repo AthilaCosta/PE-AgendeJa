@@ -6,7 +6,18 @@ export function TableCard({ title, columns, data, sections }: ITableProps) {
   return (
     <div className={styles["container"]}>
       <div className={styles["table_header_container"]}>
-        <h1 className={styles["table_header"]}>{title}</h1>
+        <h1 className={styles["table_header"]}>{title.title as string}</h1>
+        {(title.create as string) && (
+          <span
+            className={styles["create_button"]}
+            onClick={() => {
+              console.log("create");
+              window.location.href = title.create as string;
+            }}
+          >
+            <span className={styles["plus_icon"]}>+</span>
+          </span>
+        )}
       </div>
       {sections && (
         <div className={styles["sections_container"]}>

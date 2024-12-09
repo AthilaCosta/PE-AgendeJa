@@ -4,11 +4,13 @@ import { ITableBodyProps } from "./interfaces";
 export function Table({ data, columns }: ITableBodyProps) {
   return (
     <div className={styles["table-container"]}>
-      <table>
+      <table className={styles["table_component"]}>
         <thead>
-          <tr>
+          <tr className={styles["table_header_row"]}>
             {columns.map((column, index) => (
-              <th key={index}>{column.label as string}</th>
+              <th key={index} className={styles["table_header_cell"]}>
+                {column.label as string}
+              </th>
             ))}
           </tr>
           <tr>
@@ -17,6 +19,7 @@ export function Table({ data, columns }: ITableBodyProps) {
                 {column.type !== "actions" && (
                   <input
                     type="text"
+                    className={styles["input_text"]}
                     placeholder={column.placeholder as string}
                   />
                 )}
@@ -26,15 +29,19 @@ export function Table({ data, columns }: ITableBodyProps) {
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <tr key={index}>
+            <tr key={index} className={index % 2 === 0 ? styles["row_even"] : styles["row_odd"]}>
               {columns.map((column, colIndex) => (
-                <td key={colIndex}>
+                <td key={colIndex} className={styles["table_cell"]}>
                   {row[column.value] && column.type !== "actions"
                     ? row[column.value]
                     : column.type === "actions"
                     ? (column.actions as Record<string, unknown>[]).map(
                         (action, actionIndex) => (
-                          <button key={actionIndex} onClick={action.onClick}>
+                          <button
+                            key={actionIndex}
+                            className={styles["action_button"]}
+                            onClick={action.onClick}
+                          >
                             {action.label as string}
                           </button>
                         )

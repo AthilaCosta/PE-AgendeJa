@@ -5,6 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import { Layout } from "./components/Layout";
 import { MyProfilePage } from "./pages/MyProfilePage";
 import { BusinessPage } from "./pages/BusinessPage";
+import { BusinessForm } from "./pages/BusinessPage/BusinessForm";
 
 function App() {
   const userIsLogged =
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/my_profile" element={<MyProfilePage />} />
                 <Route path="/business" element={<BusinessPage />} />
+                <Route path="/business/create" element={<BusinessForm />} />
               </Routes>
             )}
           </BrowserRouter>

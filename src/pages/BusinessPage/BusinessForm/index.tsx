@@ -181,6 +181,16 @@ export function BusinessForm() {
           <Button
             type="primary"
             size="large"
+            className={styles["button_back"]}
+            onClick={() => {
+              window.location.href = "/business";
+            }}
+          >
+            VOLTAR
+          </Button>
+          <Button
+            type="primary"
+            size="large"
             className={styles["button_cancel"]}
             onClick={handleCancel}
           >

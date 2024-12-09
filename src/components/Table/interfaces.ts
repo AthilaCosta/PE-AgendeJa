@@ -1,5 +1,5 @@
 export interface ITableProps {
-    title: string;
+    title: Record<string, unknown>;
     columns: Record<string, unknown>[];
     data: Record<string, unknown>[];
     sections?: Record<string, unknown>[];

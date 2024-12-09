@@ -1,7 +1,7 @@
 .container {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
     height: 100vh;
     display: flex;
     flex-direction: row;

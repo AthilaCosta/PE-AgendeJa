@@ -1,86 +1,68 @@
 .table-container {
     width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.table-header {
-    text-align: start;
-    min-height: 3rem;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    background-color: #7A1CAC;
-    align-items: center;
-    display: flex;
-}
-
-.table-header h1 {
-    font-size: 24px;
-    color: #EBD3F8;
-    margin-left: 1rem;
-}
-
-table {
+  }
+  
+  .table_component {
     width: 100%;
     border-collapse: collapse;
-}
-
-thead {
+  }
+  
+  .table_header_row {
     border: 1px solid #EBD3F8;
     background-color: #AD49E1;
-}
-
-thead tr:first-child th:last-child {
-    max-width: 10% !important;
-    width: 10% !important;
-    min-width: 10% !important;
-}
-
-th,
-td {
+  }
+  
+  .table_header_cell {
     padding: 12px;
     text-align: left;
-}
-
-th {
     font-weight: bold;
     color: #EBD3F8;
-}
-
-.input_line {
+  }
+  
+  .input_line {
     border: 1px solid #EBD3F8;
     border-top: none;
+    padding: 5px;
     border-bottom: none;
     background-color: #7A1CAC;
-}
-
-td {
-    border-left: 1px solid #EBD3F8;
-    border-right: 1px solid #EBD3F8;
-    border-bottom: none;
-}
-
-/* Alternating row colors */
-
-tbody tr:nth-child(odd) {
-    background-color: #2E073F;
-    color: #fff;
-
-}
-
-tbody tr:nth-child(even) {
-    background-color: #7A1CAC;
-    color: #fff;
-}
-
-input[type="text"] {
+  }
+  
+  .input_text {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-input[type="text"]:focus {
+  }
+  
+  .input_text:focus {
     border-color: #007bff;
     outline: none;
-}
+  }
+  
+  .table_cell {
+    padding: 12px;
+    text-align: left;
+    border-left: 1px solid #EBD3F8;
+    border-right: 1px solid #EBD3F8;
+    border-bottom: none;
+  }
+  
+  .row_odd {
+    background-color: #2E073F;
+    color: #fff;
+  }
+  
+  .row_even {
+    background-color: #7A1CAC;
+    color: #fff;
+  }
+  
+  .action_button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+  }
+  
