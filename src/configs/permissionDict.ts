@@ -31,16 +31,16 @@ export function getPermissionsUser({ role }: { role: "PROVIDER" | "CLIENT" }) {
           link: "/home"
         },
         {
-          title: "Meu perfil",
-          icon: "UserOutlined",
-          code: "MYPROF",
-          link: '/my_profile'
-        },
-        {
           title: "Estabelecimentos",
           icon: "ShopOutlined",
           code: "BUSIS",
           link: '/all_business'
+        },
+        {
+          title: "Meu perfil",
+          icon: "UserOutlined",
+          code: "MYPROF",
+          link: '/my_profile'
         },
       ];
 
