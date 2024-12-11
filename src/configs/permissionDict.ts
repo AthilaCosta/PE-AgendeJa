@@ -36,6 +36,12 @@ export function getPermissionsUser({ role }: { role: "PROVIDER" | "CLIENT" }) {
           code: "MYPROF",
           link: '/my_profile'
         },
+        {
+          title: "Estabelecimentos",
+          icon: "ShopOutlined",
+          code: "BUSIS",
+          link: '/all_business'
+        },
       ];
 
     default: {

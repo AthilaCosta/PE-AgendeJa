@@ -9,6 +9,7 @@ export interface ITextInputProps {
   validation?: ITextInputValidations;
   customContainerClassName?: string;
   disable?: boolean;
+  invertColorLabel?: boolean;
 }
 
 interface ITextInputValidations {

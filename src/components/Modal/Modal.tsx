@@ -7,6 +7,7 @@ export function GenericModal({
   setOpenModal,
   footer,
   body,
+  size,
 }: IModal) {
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -15,6 +16,7 @@ export function GenericModal({
   return (
     <div>
       <Modal
+        style={{ minWidth: size === "large" ? "700px" : "520px" }}
         centered={true}
         footer={footer}
         title={title}

@@ -44,11 +44,15 @@
   .table_cell {
     padding: 12px;
     text-align: left;
-    border-left: 1px solid #EBD3F8;
-    border-right: 1px solid #EBD3F8;
-    border-bottom: none;
+    border: 1px solid #EBD3F8;
   }
   
+  .table_cell_action {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #f8d3d3;
+  }
+
   .row_odd {
     background-color: #2E073F;
     color: #fff;
@@ -60,9 +64,19 @@
   }
   
   .action_button {
-    background-color: transparent;
-    color: #007bff;
+    background-color: #EBD3F8;
+    color: #2E073F;
     border: none;
+    border-radius: 30px;
+    border: 2px solid #AD49E1;
+    min-width: 4rem;
+    min-height: 2rem;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-left: 10px;
   }
   
+  .action_button:hover {
+    color: #EBD3F8;
+    background-color: transparent;
+  }

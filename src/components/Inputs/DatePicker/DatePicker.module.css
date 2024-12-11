@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: start;
     justify-content: center;
-    width: 60%;
+    width: 40%;
+    margin-left: 3rem;
 }
 
 .label {
@@ -41,4 +42,12 @@
     font-size: 1.5em !important;
     margin-right: 5px;
     margin-top: 3px;
+}
+
+.custom-date-picker .ant-picker-suffix {
+    color: #EBD3F8 !important;
+}
+
+.custom-date-picker .ant-picker-suffix:hover {
+    color: #EBD3F8 !important;
 }

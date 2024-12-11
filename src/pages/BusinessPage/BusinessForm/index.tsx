@@ -6,7 +6,8 @@ import { RuleObject } from "antd/es/form";
 import { serverConnection } from "../../../configs/connectionServerConfig";
 import { showAlert } from "../../../components/Alert/Alert";
 import { closeLoader, openLoader } from "../../../components/Loading/Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export interface IBusinessData {
   businessName: string;
@@ -21,6 +22,8 @@ export function BusinessForm() {
     JSON.parse(localStorage.getItem("user_data") as string)
   );
 
+  const { id } = useParams<{ id: string }>();
+
   const [form] = Form.useForm();
 
   const handleFieldsChange = () => {
@@ -33,6 +36,27 @@ export function BusinessForm() {
     setIsSaveEnabled(hasChanged);
   };
 
+  useEffect(() => {
+    if (id) {
+      openLoader();
+      serverConnection({
+        suffixUrl: `businesses/registered/${id}`,
+        method: "GET",
+      })
+        .then((response) => {
+          const data = response.data as Record<string, unknown>[];
+          const inputValues = data.find(
+            (item) => item.businessId === Number(id)
+          );
+          form.setFieldsValue(inputValues);
+          console.log(id, inputValues, data);
+        })
+        .finally(() => {
+          closeLoader();
+        });
+    }
+  }, [form, id]);
+
   const handleFinish = (values: IBusinessData) => {
     const businessData = values;
 
@@ -40,36 +64,77 @@ export function BusinessForm() {
       businessData.businessPhoneNumber =
         businessData.businessPhoneNumber.replace(/\D/g, "");
     }
+    if (!id) {
+      serverConnection({
+        suffixUrl: `businesses/register-business/${userData.id}`,
+        method: "POST",
+        body: businessData as unknown as Record<string, unknown>,
+      })
+        .then((response) => {
+          openLoader();
+          if (response.status === 201) {
+            const data = response.data;
 
-    serverConnection({
-      suffixUrl: `businesses/register-business/${userData.id}`,
-      method: "POST",
-      body: businessData as unknown as Record<string, unknown>,
-    })
-      .then((response) => {
-        openLoader();
-        if (response.status === 201) {
-          const data = response.data;
-
-          let userBusiness = JSON.parse(
-            localStorage.getItem("user_business") as string
+            let userBusiness = JSON.parse(
+              localStorage.getItem("user_business") as string
+            );
+            userBusiness = userBusiness.concat(data);
+            localStorage.setItem("user_business", JSON.stringify(userBusiness));
+            form.resetFields();
+          }
+          if (id) {
+            showAlert("success", "Estabelecimento atualizado com sucesso.");
+          } else {
+            showAlert("success", "Estabelecimento criado com sucesso.");
+          }
+        })
+        .finally(() => {
+          window.location.href = "/business";
+          closeLoader();
+        })
+        .catch((error) => {
+          showAlert(
+            "error",
+            "Erro ao cadastrar estabelecimento. Tente novamente."
           );
-          userBusiness = userBusiness.concat(data);
-          localStorage.setItem("user_business", JSON.stringify(userBusiness));
-          form.resetFields();
-        }
-        showAlert("success", "Estabeleciimento criado com sucesso.");
+          throw error;
+        });
+    } else {
+      serverConnection({
+        suffixUrl: `businesses/edit/${id}`,
+        method: "PUT",
+        body: businessData as unknown as Record<string, unknown>,
       })
-      .finally(() => {
-        closeLoader();
-      })
-      .catch((error) => {
-        showAlert(
-          "error",
-          "Erro ao cadastrar estabelecimento. Tente novamente."
-        );
-        throw error;
-      });
+        .then((response) => {
+          openLoader();
+          if (response.status === 201) {
+            const data = response.data;
+
+            let userBusiness = JSON.parse(
+              localStorage.getItem("user_business") as string
+            );
+            userBusiness = userBusiness.concat(data);
+            localStorage.setItem("user_business", JSON.stringify(userBusiness));
+            form.resetFields();
+          }
+          if (id) {
+            showAlert("success", "Estabelecimento atualizado com sucesso.");
+          } else {
+            showAlert("success", "Estabelecimento criado com sucesso.");
+          }
+        })
+        .finally(() => {
+          closeLoader();
+          window.location.href = "/business";
+        })
+        .catch((error) => {
+          showAlert(
+            "error",
+            "Erro ao cadastrar estabelecimento. Tente novamente."
+          );
+          throw error;
+        });
+    }
   };
 
   const handleCancel = () => {

@@ -13,7 +13,13 @@ export function TextInput(props: ITextInputProps) {
 
   return (
     <div className={`${styles["container"]} ${props.customContainerClassName}`}>
-      <label className={styles["label"]}>{props.label}</label>
+      <label
+        className={
+          props.invertColorLabel ? styles["label_invert"] : styles["label"]
+        }
+      >
+        {props.label}
+      </label>
       <Form.Item
         style={{ width: "100%", height: "100%", margin: 0 }}
         name={props.id}

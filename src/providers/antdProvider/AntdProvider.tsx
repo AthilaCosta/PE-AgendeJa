@@ -22,9 +22,18 @@ export function AntDesignProvider({ children }: IAntDesignProviderProps) {
         colorBgBlur: "#2E073F",
       },
       Table: {
-        colorBgBase: '#ff4b4b',
-        colorBgContainer: '#EBD3F8',
-      }
+        colorBgBase: "#ff4b4b",
+        colorBgContainer: "#EBD3F8",
+      },
+      DatePicker: {
+        colorTextPlaceholder: "#EBD3F8",
+        colorBgContainer: "#AD49E1",
+        zIndexBase: 0,
+        colorIcon: "#EBD3F8",
+        colorIconHover: "#EBD3F8",
+        fontSizeIcon: 16,
+        hoverBorderColor: "",
+      },
     },
   };
 

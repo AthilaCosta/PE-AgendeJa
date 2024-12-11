@@ -31,7 +31,6 @@ export default function BusinessList() {
             placeholder: "Digite um valor",
             label: "Nome",
           },
-          { value: "email", placeholder: "Digite um valor", label: "Email" },
           { value: "businessDescription", placeholder: "Digite um valor", label: "Descrição" },
           {
             value: "businessPhoneNumber",
@@ -44,8 +43,11 @@ export default function BusinessList() {
             actions: [
               {
                 label: "Editar",
-                onClick: () => console.log("Editar"),
-              },
+                onClick: (record: Record<string, unknown>) => {
+                  const id = record.businessId as string; // Certifique-se de que o ID está presente nos dados
+                  console.log(record)
+                  window.location.replace(`/business/create/${id}`);
+                },              },
               {
                 label: "Excluir",
                 onClick: () => console.log("Editar"),
