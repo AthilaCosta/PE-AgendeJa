@@ -15,9 +15,17 @@ export default function BusinessList() {
     })
       .then((response) => {
         setEntities(response.data as Record<string, unknown>[]);
+
+        if (response.status === 401) {
+          setEntities([]);
+        }
       })
       .finally(() => {
         closeLoader();
+      })
+      .catch((error) => {
+        setEntities([]);
+        console.log(error);
       });
   }, []);
 
@@ -31,7 +39,11 @@ export default function BusinessList() {
             placeholder: "Digite um valor",
             label: "Nome",
           },
-          { value: "businessDescription", placeholder: "Digite um valor", label: "Descrição" },
+          {
+            value: "businessDescription",
+            placeholder: "Digite um valor",
+            label: "Descrição",
+          },
           {
             value: "businessPhoneNumber",
             placeholder: "Digite um valor",
@@ -44,10 +56,10 @@ export default function BusinessList() {
               {
                 label: "Editar",
                 onClick: (record: Record<string, unknown>) => {
-                  const id = record.businessId as string; // Certifique-se de que o ID está presente nos dados
-                  console.log(record)
+                  const id = record.businessId as string;
                   window.location.replace(`/business/create/${id}`);
-                },              },
+                },
+              },
               {
                 label: "Excluir",
                 onClick: () => console.log("Editar"),

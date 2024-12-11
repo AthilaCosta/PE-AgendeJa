@@ -8,8 +8,7 @@ import Form, { RuleObject } from "antd/es/form";
 import { showAlert } from "../../../components/Alert/Alert";
 import { TextInput } from "../../../components/Inputs/TextInputs/TextInput";
 import { GenericModal } from "../../../components/Modal/Modal";
-import { IBusinessData } from "../AllBusinessForm";
-import styles from "../AllBusinessForm/BusinessForm.module.css";
+import styles from "./BusinessForm.module.css";
 import { DatePickerInput } from "../../../components/Inputs/DatePicker/DatePicker";
 
 export default function BusinessList() {
@@ -44,7 +43,6 @@ export default function BusinessList() {
       businessId: businessEntity.businessId,
     };
 
-    console.log(formatedData);
     serverConnection({
       suffixUrl: `appointments/schedule`,
       method: "POST",
@@ -55,6 +53,7 @@ export default function BusinessList() {
       })
       .finally(() => {
         closeLoader();
+        setOpenModal(false);
         showAlert("success", "Agendamento realizado com sucesso.");
       })
       .catch((error) => {
@@ -196,7 +195,6 @@ export default function BusinessList() {
               {
                 label: "Agendar",
                 onClick: (record: Record<string, unknown>) => {
-                  console.log(record);
                   setBusinessEntity(record);
                   setOpenModal(true);
                 },

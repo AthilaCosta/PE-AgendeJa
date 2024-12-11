@@ -11,7 +11,6 @@ export function TableCard({ title, columns, data, sections }: ITableProps) {
           <span
             className={styles["create_button"]}
             onClick={() => {
-              console.log("create");
               window.location.href = title.create as string;
             }}
           >

@@ -31,6 +31,7 @@
     min-height: 2rem;
     max-height: 2rem;
     border-radius: 100%;
+    cursor: pointer;
 }
 
 .plus_icon {

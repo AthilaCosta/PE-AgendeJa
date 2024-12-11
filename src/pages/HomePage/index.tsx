@@ -1,10 +1,11 @@
 import { Calendar, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./HomePage.module.css";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/pt-br";
 import { GenericModal } from "../../components/Modal/Modal";
+import { serverConnection } from "../../configs/connectionServerConfig";
 
 dayjs.locale("pt-br");
 
@@ -15,7 +16,48 @@ export function HomePage() {
     Record<string, unknown>[]
   >([]);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-  const [events, setEvents] = useState(generateMockEvents());
+  const [events, setEvents] = useState([]);
+  const userData = JSON.parse(localStorage.getItem("user_data") as string);
+  const businessData = JSON.parse(
+    localStorage.getItem("user_business") as string
+  );
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        if (businessData && businessData.length > 0) {
+          // Requisições para cada empresa
+          const responses = await Promise.all(
+            businessData.map((business) =>
+              serverConnection({
+                method: "GET",
+                suffixUrl: `/appointments/business/${business.id}`,
+              })
+            )
+          );
+
+          // Transformar e concatenar os resultados
+          const allAppointments = responses.flatMap((response) =>
+            transformAppointments(response.data)
+          );
+
+          setEvents(allAppointments); // Atualiza o estado com os eventos das empresas
+        } else {
+          // Requisição para o usuário caso não existam empresas
+          const response = await serverConnection({
+            method: "GET",
+            suffixUrl: `/appointments/user/${userData.id}`,
+          });
+
+          setEvents(transformAppointments(response.data)); // Atualiza com eventos do usuário
+        }
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [userData.id]);
 
   const handlePrevMonth = () => {
     setCurrentDate(currentDate.subtract(1, "month"));
@@ -82,7 +124,27 @@ export function HomePage() {
         title={selectedDate ? selectedDate.format("DD MMMM YYYY") : ""}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        footer={null}
+        footer={
+          <div>
+            <Button
+              type="primary"
+              size="large"
+              className={styles["button_save"]}
+              htmlType="submit"
+              onClick={() => {
+                serverConnection({
+                  method: "DELETE",
+                  suffixUrl: `/appointments/delete/${selectedEvents[0].appoiment_id}`,
+                }).finally(() => {
+                  setOpenModal(false);
+                  window.location.reload();
+                });
+              }}
+            >
+              CANCELAR AGENDAMENTO
+            </Button>
+          </div>
+        }
         body={
           <div>
             {selectedEvents.map((event, index) => {
@@ -90,7 +152,6 @@ export function HomePage() {
                 <div key={index} className={styles["event_modal_container"]}>
                   <p>Serviço: {event.title as string}</p>
                   <p>Estabelecimento: {event.company_name as string}</p>
-                  <p>Endereço: {event.address as string}</p>
                   <p>Horário: {(event.date as Dayjs).format("HH:mm")}</p>
                 </div>
               );
@@ -134,4 +195,16 @@ function generateMockEvents() {
   }
 
   return [];
+}
+
+function transformAppointments(appointments: Record<string, unknown>[]) {
+  return appointments.map((appointment) => {
+    return {
+      date: dayjs(appointment.start as Date),
+      title: appointment.appointmentDescription,
+      company_name: appointment.businessName,
+      user_id: appointment.userId,
+      appoiment_id: appointment.appointmentId,
+    };
+  });
 }

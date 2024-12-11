@@ -98,3 +98,21 @@
 .event_modal_container p {
     margin: 0;
 }
+
+.button_save {
+    height: 3em !important;
+    max-height: 3em !important;
+    border-radius: 30px;
+    background-color: #bb86fc;
+    box-shadow: 0;
+    color: #7A1CAC;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.button_save:hover {
+    transition: 1s;
+    border: 2px solid #bb86fc;
+    background-color: #bb86fc00 !important;
+    color: #bb86fc !important;
+}

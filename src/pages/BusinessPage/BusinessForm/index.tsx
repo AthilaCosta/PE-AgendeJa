@@ -49,7 +49,6 @@ export function BusinessForm() {
             (item) => item.businessId === Number(id)
           );
           form.setFieldsValue(inputValues);
-          console.log(id, inputValues, data);
         })
         .finally(() => {
           closeLoader();
@@ -203,19 +202,21 @@ export function BusinessForm() {
             message: "Campo obrigatório",
           }}
         />
-        <TextInput
-          prefix={<MailOutlined className={styles["icon_input"]} />}
-          type={"email"}
-          placeholder={"Digite o e-mail do estabelecimento"}
-          label={"E-mail do estabelecimento"}
-          id={"email"}
-          onChange={() => {}}
-          customContainerClassName={styles["input"]}
-          validation={{
-            required: true,
-            message: "Campo obrigatório",
-          }}
-        />
+        {!id && (
+          <TextInput
+            prefix={<MailOutlined className={styles["icon_input"]} />}
+            type={"email"}
+            placeholder={"Digite o e-mail do estabelecimento"}
+            label={"E-mail do estabelecimento"}
+            id={"email"}
+            onChange={() => {}}
+            customContainerClassName={styles["input"]}
+            validation={{
+              required: true,
+              message: "Campo obrigatório",
+            }}
+          />
+        )}
         <TextInput
           prefix={<PhoneOutlined className={styles["icon_input"]} />}
           type={"text"}

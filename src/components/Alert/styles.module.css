@@ -1,6 +1,6 @@
 .globalAlert {
     position: absolute;
-    margin: 10px;
+    margin: 5px;
     width: 40%;
     z-index: 1000;
     padding: 16px;
